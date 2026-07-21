@@ -35,6 +35,7 @@ pnpm-debug.log*
 # ==========================
 prisma/dev.db
 prisma/dev.db-journal
+backend/src/generated
 .agents
 .claude
 .windsurf
