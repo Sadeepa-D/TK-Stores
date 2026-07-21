@@ -12,4 +12,8 @@ app.use(compression());
 app.use(helmet());
 app.use(express.json());
 
+app.use("/", (req, res) => {
+  res.send("Hello TK Stores Backend Server is Here! ");
+});
+
 export default app;
