@@ -6,3 +6,45 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  role      Role     @default(User)
+  password  String
+  status    Status   @default(Active)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  Admin
+  User
+}
+
+enum Status {
+  Active
+  Suspended
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  price       Decimal
+  baseunit    Unit
+  description String?
+  status      Statue   @default(Active)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+enum Unit {
+  KG
+  LITER
+  PIECE
+  BOX
+}
+enum Statue {
+  Active
+  Inactive
+}
