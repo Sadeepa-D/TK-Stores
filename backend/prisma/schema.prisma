@@ -21,18 +21,18 @@ enum Role {
   Admin
 }
 
-model Product {
-  id          String   @id @default(uuid())
-  name        String
-  price       Decimal
-  baseunit    Unit
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-enum Unit {
-  KG
-  LITER
-  PIECE
-  BOX
-}
+// model Product {
+//   id          String   @id @default(uuid())
+//   name        String
+//   price       Decimal
+//   baseunit    Unit
+//   description String?
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
+// enum Unit {
+//   KG
+//   LITER
+//   PIECE
+//   BOX
+// }
