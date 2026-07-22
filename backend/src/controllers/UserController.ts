@@ -72,6 +72,7 @@ const viewUsers = async (req: Request, res: Response) => {
         name: true,
         email: true,
         role: true,
+        createdAt: true,
       },
     });
     res.status(200).json(users);
