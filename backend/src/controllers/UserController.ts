@@ -60,7 +60,7 @@ const login = async (req: Request, res: Response) => {
     res.status(200).json({ message: "Login successful", token });
   } catch (error) {
     console.error("login error:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "login server error" });
   }
 };
 
@@ -78,7 +78,7 @@ const viewUsers = async (req: Request, res: Response) => {
     res.status(200).json(users);
   } catch (error) {
     console.error("viewUsers error:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "view users server error" });
   }
 };
 
@@ -96,7 +96,7 @@ const suspendedUser = async (req: Request, res: Response) => {
     res.status(200).json({ message: "User suspended successfully" });
   } catch (error) {
     console.error("suspendedUser error:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "suspended user server error" });
   }
 };
 const deleteUser = async (req: Request, res: Response) => {
@@ -110,7 +110,7 @@ const deleteUser = async (req: Request, res: Response) => {
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     console.error("deleteUser error:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "delete user server error" });
   }
 };
 const activeUser = async (req: Request, res: Response) => {
@@ -127,7 +127,7 @@ const activeUser = async (req: Request, res: Response) => {
     res.status(200).json({ message: "User activated successfully" });
   } catch (error) {
     console.error("activeUser error:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "active user server error" });
   }
 };
 

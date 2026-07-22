@@ -18,4 +18,5 @@ router.get("/viewall", auth, roleBasedAccess(["Admin"]), viewUsers);
 router.put("/suspend/:userId", auth, roleBasedAccess(["Admin"]), suspendedUser);
 router.put("/activate/:userId", auth, roleBasedAccess(["Admin"]), activeUser);
 router.delete("/delete/:userId", auth, roleBasedAccess(["Admin"]), deleteUser);
+
 export default router;
