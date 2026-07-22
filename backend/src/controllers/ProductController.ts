@@ -1,7 +1,23 @@
 import { Request, Response } from "express";
 import prisma from "../config/dbconn";
+import { Product, Unit } from "@prisma/client";
 
-const addProduct = async (req: Request, res: Response) => {
+interface ProductReq {
+  name: string;
+  price: number;
+  baseunit: Unit;
+  description: string;
+}
+
+interface ProductRes<T> {
+  message: string;
+  data?: T;
+}
+
+const addProduct = async (
+  req: Request<{}, {}, ProductReq>,
+  res: Response<ProductRes<Product>>,
+) => {
   try {
     const { name, price, baseunit, description } = req.body;
 
@@ -23,19 +39,24 @@ const addProduct = async (req: Request, res: Response) => {
       },
     });
 
-    res.status(201).json({ message: "Product added successfully", product });
+    res
+      .status(201)
+      .json({ message: "Product added successfully", data: product });
   } catch (error) {
     console.error("addProduct error:", error);
     res.status(500).json({ message: "add product server error" });
   }
 };
 
-const getAllProducts = async (req: Request, res: Response) => {
+const getAllProducts = async (
+  req: Request,
+  res: Response<ProductRes<Product[]>>,
+) => {
   try {
     const products = await prisma.product.findMany();
     res
       .status(200)
-      .json({ message: "Products fetched successfully", products });
+      .json({ message: "Products fetched successfully", data: products });
   } catch (error) {
     console.error("getAllProducts error:", error);
     res.status(500).json({ message: "get products server error" });
