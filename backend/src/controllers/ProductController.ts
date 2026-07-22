@@ -63,7 +63,4 @@ const getAllProducts = async (
   }
 };
 
-export default {
-  addProduct,
-  getAllProducts,
-};
+export { addProduct, getAllProducts };

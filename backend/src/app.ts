@@ -5,6 +5,7 @@ import helmet from "helmet";
 import compression from "compression";
 
 import userRoutes from "./routes/UserRoutes";
+import productRoutes from "./routes/ProductRoutes";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(helmet());
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
+app.use("/api/products", productRoutes);
 
 app.use("/", (req, res) => {
   res.send("Hello TK Stores Backend Server is Here! ");
