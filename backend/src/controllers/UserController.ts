@@ -82,4 +82,60 @@ const viewUsers = async (req: Request, res: Response) => {
   }
 };
 
-export { registerUser, login, viewUsers };
+const suspendedUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params as { userId: string };
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    await prisma.user.update({
+      where: { id: userId },
+      data: { status: "Suspended" },
+    });
+    res.status(200).json({ message: "User suspended successfully" });
+  } catch (error) {
+    console.error("suspendedUser error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params as { userId: string };
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    await prisma.user.delete({ where: { id: userId } });
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error("deleteUser error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+const activeUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params as { userId: string };
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    await prisma.user.update({
+      where: { id: userId },
+      data: { status: "Active" },
+    });
+    res.status(200).json({ message: "User activated successfully" });
+  } catch (error) {
+    console.error("activeUser error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export {
+  registerUser,
+  login,
+  viewUsers,
+  suspendedUser,
+  deleteUser,
+  activeUser,
+};
