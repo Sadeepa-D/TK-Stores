@@ -64,4 +64,21 @@ const login = async (req: Request, res: Response) => {
   }
 };
 
-export { registerUser, login };
+const viewUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+      },
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("viewUsers error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export { registerUser, login, viewUsers };
