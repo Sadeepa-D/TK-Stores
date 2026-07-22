@@ -12,7 +12,7 @@ import auth from "../middlewares/auth";
 
 const router = express.Router();
 
-router.post("/register", registerUser);
+router.post("/register", auth, roleBasedAccess(["Admin"]), registerUser);
 router.post("/login", login);
 router.get("/viewall", auth, roleBasedAccess(["Admin"]), viewUsers);
 router.put("/suspend/:userId", auth, roleBasedAccess(["Admin"]), suspendedUser);
