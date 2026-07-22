@@ -11,7 +11,7 @@ model User {
   id        String   @id @default(uuid())
   name      String
   email     String   @unique
-  role      Role     @default(Admin)
+  role      Role     @default(User)
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -19,20 +19,21 @@ model User {
 
 enum Role {
   Admin
+  User
 }
 
-// model Product {
-//   id          String   @id @default(uuid())
-//   name        String
-//   price       Decimal
-//   baseunit    Unit
-//   description String?
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @updatedAt
-// }
-// enum Unit {
-//   KG
-//   LITER
-//   PIECE
-//   BOX
-// }
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  price       Decimal
+  baseunit    Unit
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+enum Unit {
+  KG
+  LITER
+  PIECE
+  BOX
+}
