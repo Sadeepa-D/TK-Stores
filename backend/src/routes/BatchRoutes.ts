@@ -5,6 +5,6 @@ import roleMiddleware from "../middlewares/RoleBaseAcess";
 
 const router = express.Router();
 
-router.post("/add", addBatch);
+router.post("/add", authMiddleware, roleMiddleware(["admin"]), addBatch);
 
 export default router;
