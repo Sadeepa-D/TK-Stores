@@ -2,9 +2,23 @@ import { Request, Response } from "express";
 import prisma from "../config/dbconn";
 import { Product, Unit } from "@prisma/client";
 
+const genarateProductId = async (): Promise<string> => {
+  const lastProduct = await prisma.product.findFirst({
+    orderBy: { createdAt: "desc" },
+  });
+  if (!lastProduct) {
+    return "PRD001";
+  }
+  const lastId = lastProduct.pid;
+  const numericPart = lastId.slice(3);
+  const newNumericPart = (parseInt(numericPart) + 1)
+    .toString()
+    .padStart(3, "0");
+  return `PRD${newNumericPart}`;
+};
+
 interface ProductReq {
   name: string;
-  pid : string;
   price: number;
   baseunit: Unit;
   description: string;
@@ -20,9 +34,9 @@ const addProduct = async (
   res: Response<ProductRes<Product>>,
 ) => {
   try {
-    const { name, pid, price, baseunit, description } = req.body;
+    const { name, price, baseunit, description } = req.body;
 
-    if (!name || !pid || !price || !baseunit || !description) {
+    if (!name || !price || !baseunit || !description) {
       return res.status(400).json({ message: "All fields are required" });
     }
     if (price <= 0) {
@@ -34,7 +48,7 @@ const addProduct = async (
     const product = await prisma.product.create({
       data: {
         name,
-        pid,
+        pid: await genarateProductId(),
         price,
         baseunit,
         description,
