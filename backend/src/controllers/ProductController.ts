@@ -4,6 +4,7 @@ import { Product, Unit } from "@prisma/client";
 
 interface ProductReq {
   name: string;
+  pid : string;
   price: number;
   baseunit: Unit;
   description: string;
@@ -19,9 +20,9 @@ const addProduct = async (
   res: Response<ProductRes<Product>>,
 ) => {
   try {
-    const { name, price, baseunit, description } = req.body;
+    const { name, pid, price, baseunit, description } = req.body;
 
-    if (!name || !price || !baseunit || !description) {
+    if (!name || !pid || !price || !baseunit || !description) {
       return res.status(400).json({ message: "All fields are required" });
     }
     if (price <= 0) {
@@ -33,6 +34,7 @@ const addProduct = async (
     const product = await prisma.product.create({
       data: {
         name,
+        pid,
         price,
         baseunit,
         description,
