@@ -85,4 +85,78 @@ const deleteBatch = async (req: Request, res: Response<BatchRes<null>>) => {
     res.status(500).json({ message: "delete batch server error" });
   }
 };
-export { addBatch, getAllBatches, deleteBatch };
+const updateBatch = async (
+  req: Request<{ id: string }, {}, BatchReq>,
+  res: Response<BatchRes<Batch>>,
+) => {
+  try {
+    const { id } = req.params;
+    const { quantity, manufactureDate, expiryDate, value } = req.body;
+    if (!quantity || !manufactureDate || !expiryDate || !value) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+    const updatedBatch = await prisma.batch.update({
+      where: { id },
+      data: {
+        quantity,
+        manufactureDate,
+        expiryDate,
+        value,
+      },
+    });
+    res
+      .status(200)
+      .json({ message: "Batch updated successfully", data: updatedBatch });
+  } catch (error) {
+    console.error("Error updating batch:", error);
+    res.status(500).json({ message: "update batch server error" });
+  }
+};
+const activateBatch = async (
+  req: Request<{ id: string }, {}, {}>,
+  res: Response<BatchRes<Batch>>,
+) => {
+  try {
+    const { id } = req.params;
+    const updatedBatch = await prisma.batch.update({
+      where: { id },
+      data: {
+        status: "Active",
+      },
+    });
+    res
+      .status(200)
+      .json({ message: "Batch activated successfully", data: updatedBatch });
+  } catch (error) {
+    console.error("Error activating batch:", error);
+    res.status(500).json({ message: "activate batch server error" });
+  }
+};
+const deactivateBatch = async (
+  req: Request<{ id: string }, {}, {}>,
+  res: Response<BatchRes<Batch>>,
+) => {
+  try {
+    const { id } = req.params;
+    const updatedBatch = await prisma.batch.update({
+      where: { id },
+      data: {
+        status: "Inactive",
+      },
+    });
+    res
+      .status(200)
+      .json({ message: "Batch deactivated successfully", data: updatedBatch });
+  } catch (error) {
+    console.error("Error deactivating batch:", error);
+    res.status(500).json({ message: "deactivate batch server error" });
+  }
+};
+export {
+  addBatch,
+  getAllBatches,
+  deleteBatch,
+  updateBatch,
+  activateBatch,
+  deactivateBatch,
+};
