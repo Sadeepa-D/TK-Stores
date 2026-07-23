@@ -59,4 +59,30 @@ const addBatch = async (
   }
 };
 
-export { addBatch };
+const getAllBatches = async (
+  req: Request,
+  res: Response<BatchRes<Batch[]>>,
+) => {
+  try {
+    const batches = await prisma.batch.findMany();
+    res
+      .status(200)
+      .json({ message: "Batches retrieved successfully", data: batches });
+  } catch (error) {
+    console.error("Error retrieving batches:", error);
+    res.status(500).json({ message: "get all batches server error" });
+  }
+};
+const deleteBatch = async (req: Request, res: Response<BatchRes<null>>) => {
+  try {
+    const { id } = req.params as { id: string };
+    await prisma.batch.delete({
+      where: { id: id },
+    });
+    res.status(200).json({ message: "Batch deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting batch:", error);
+    res.status(500).json({ message: "delete batch server error" });
+  }
+};
+export { addBatch, getAllBatches, deleteBatch };
