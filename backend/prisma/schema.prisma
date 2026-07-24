@@ -61,7 +61,8 @@ model Batch {
   product        Product     @relation(fields: [pid], references: [pid], onDelete: Cascade)
   manufactureDate DateTime
   expiryDate      DateTime
-  quantity      Decimal
+  startquantity      Decimal @default(0)
+  currentquantity    Decimal @default(0)
   value         Decimal
   status        BatchStatus @default(Active)
   // usages       Usage[]
@@ -78,18 +79,9 @@ enum BatchStatus {
 //   id          String   @id @default(uuid())
 //   batchid     String
 //   batch       Batch    @relation(fields: [batchid], references: [id], onDelete: Cascade)
-//   quantity    QTYUnit
+//   productname String
+//   quantity    Decimal
+//   value       Decimal
 //   createdAt   DateTime @default(now())
 //   updatedAt   DateTime @updatedAt
-// }
-// enum QTYUnit {
-//   KG
-//   G
-//   LITER
-//   MILILITER
-//   METERS
-//   CENTIMETERS
-//   PIECE
-//   BOX
-//   PACKETS
 // }
