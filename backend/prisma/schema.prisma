@@ -40,9 +40,14 @@ model Product {
 }
 enum Unit {
   KG
+  G
   LITER
+  MILILITER
+  METERS
+  CENTIMETERS
   PIECE
   BOX
+  PACKETS
 }
 enum Statue {
   Active
@@ -59,6 +64,7 @@ model Batch {
   quantity      Decimal
   value         Decimal
   status        BatchStatus @default(Active)
+  // usages       Usage[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
@@ -67,3 +73,23 @@ enum BatchStatus {
   Inactive
   Expired
 }
+
+// model Usage {
+//   id          String   @id @default(uuid())
+//   batchid     String
+//   batch       Batch    @relation(fields: [batchid], references: [id], onDelete: Cascade)
+//   quantity    QTYUnit
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
+// enum QTYUnit {
+//   KG
+//   G
+//   LITER
+//   MILILITER
+//   METERS
+//   CENTIMETERS
+//   PIECE
+//   BOX
+//   PACKETS
+// }
