@@ -13,7 +13,7 @@ interface Usageres<T> {
 }
 
 const addUsage = async (
-  req: Request<Usagereq>,
+  req: Request<{}, {}, Usagereq>,
   res: Response<Usageres<Usage>>,
 ) => {
   try {
@@ -61,9 +61,12 @@ const getAllUsages = async (req: Request, res: Response<Usageres<Usage[]>>) => {
     });
   }
 };
-const deleteUsage = async (req: Request, res: Response<Usageres<null>>) => {
+const deleteUsage = async (
+  req: Request<{ id: string }>,
+  res: Response<Usageres<null>>,
+) => {
   try {
-    const { id } = req.params as { id: string };
+    const { id } = req.params;
     await dbcon.usage.delete({
       where: {
         id,
@@ -79,5 +82,32 @@ const deleteUsage = async (req: Request, res: Response<Usageres<null>>) => {
     });
   }
 };
+const updateUsage = async (
+  req: Request<{ id: string }, {}, Usagereq>,
+  res: Response<Usageres<Usage>>,
+) => {
+  try {
+    const { id } = req.params;
+    const { batchId, quantity, usageDate } = req.body;
 
-export { addUsage, getAllUsages, deleteUsage };
+    const updatedUsage = await dbcon.usage.update({
+      where: { id },
+      data: {
+        batchId,
+        quantity,
+        usageDate,
+      },
+    });
+    res.status(200).json({
+      message: "Usage updated successfully",
+      data: updatedUsage,
+    });
+  } catch (error) {
+    console.error("Error updating usage:", error);
+    res.status(500).json({
+      message: "updateUsage server error",
+    });
+  }
+};
+
+export { addUsage, getAllUsages, deleteUsage, updateUsage };
