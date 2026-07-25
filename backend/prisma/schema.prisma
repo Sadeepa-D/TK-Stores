@@ -65,7 +65,7 @@ model Batch {
   currentquantity    Decimal @default(0)
   value         Decimal
   status        BatchStatus @default(Active)
-  // usages       Usage[]
+  usages       Usage[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
@@ -75,13 +75,12 @@ enum BatchStatus {
   Expired
 }
 
-// model Usage {
-//   id          String   @id @default(uuid())
-//   batchid     String
-//   batch       Batch    @relation(fields: [batchid], references: [id], onDelete: Cascade)
-//   productname String
-//   quantity    Decimal
-//   value       Decimal
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @updatedAt
-// }
+model Usage {
+  id          String   @id @default(uuid())
+  batchId     String
+  batch       Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  quantity    Decimal
+  usageDate   DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
