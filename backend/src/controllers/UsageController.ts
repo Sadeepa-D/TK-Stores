@@ -28,7 +28,7 @@ const addUsage = async (
         message: "quantity must be greater than 0",
       });
     }
-    
+
     const newUsage = await dbcon.usage.create({
       data: {
         batchId,
@@ -47,5 +47,37 @@ const addUsage = async (
     });
   }
 };
+const getAllUsages = async (req: Request, res: Response<Usageres<Usage[]>>) => {
+  try {
+    const usages = await dbcon.usage.findMany();
+    res.status(200).json({
+      message: "Usages fetched successfully",
+      data: usages,
+    });
+  } catch (error) {
+    console.error("Error fetching usages:", error);
+    res.status(500).json({
+      message: "getAllUsages server error",
+    });
+  }
+};
+const deleteUsage = async (req: Request, res: Response<Usageres<null>>) => {
+  try {
+    const { id } = req.params as { id: string };
+    await dbcon.usage.delete({
+      where: {
+        id,
+      },
+    });
+    res.status(200).json({
+      message: "Usage deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error deleting usage:", error);
+    res.status(500).json({
+      message: "deleteUsage server error",
+    });
+  }
+};
 
-export { addUsage };
+export { addUsage, getAllUsages, deleteUsage };
