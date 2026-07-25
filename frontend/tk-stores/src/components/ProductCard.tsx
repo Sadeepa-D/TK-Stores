@@ -3,7 +3,7 @@ import { Package, Eye, Pencil, Clock, AlertTriangle } from "lucide-react";
 export type ProductBatch = {
   id: string;
   quantity: number;
-  expiryDate?: string | null; // ISO date string
+  expiryDate?: string | null;
 };
 
 export type Product = {
