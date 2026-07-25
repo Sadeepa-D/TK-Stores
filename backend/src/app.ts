@@ -7,6 +7,7 @@ import compression from "compression";
 import userRoutes from "./routes/UserRoutes";
 import productRoutes from "./routes/ProductRoutes";
 import batchRoutes from "./routes/BatchRoutes";
+import usageRoutes from "./routes/UsageRoutes";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/batches", batchRoutes);
+app.use("/api/usages", usageRoutes);
 
 app.use("/", (req, res) => {
   res.send("Hello TK Stores Backend Server is Here! ");

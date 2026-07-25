@@ -40,9 +40,14 @@ model Product {
 }
 enum Unit {
   KG
+  G
   LITER
+  MILILITER
+  METERS
+  CENTIMETERS
   PIECE
   BOX
+  PACKETS
 }
 enum Statue {
   Active
@@ -56,9 +61,11 @@ model Batch {
   product        Product     @relation(fields: [pid], references: [pid], onDelete: Cascade)
   manufactureDate DateTime
   expiryDate      DateTime
-  quantity      Decimal
+  startquantity      Decimal @default(0)
+  currentquantity    Decimal @default(0)
   value         Decimal
   status        BatchStatus @default(Active)
+  usages       Usage[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
@@ -66,4 +73,14 @@ enum BatchStatus {
   Active
   Inactive
   Expired
+}
+
+model Usage {
+  id          String   @id @default(uuid())
+  batchId     String
+  batch       Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  quantity    Decimal
+  usageDate   DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
