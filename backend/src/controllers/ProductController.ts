@@ -69,7 +69,16 @@ const getAllProducts = async (
   res: Response<ProductRes<Product[]>>,
 ) => {
   try {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({
+      include: {
+        batches: {
+          select: {
+            id: true,
+            batchNumber: true,
+          },
+        },
+      },
+    });
     res
       .status(200)
       .json({ message: "Products fetched successfully", data: products });

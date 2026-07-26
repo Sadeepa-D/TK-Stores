@@ -20,8 +20,6 @@ router.post(
 );
 router.get(
   "/viewall",
-  authMiddleware,
-  roleBasedAccess(["Admin", "User"]),
   getAllProducts,
 );
 router.put(
