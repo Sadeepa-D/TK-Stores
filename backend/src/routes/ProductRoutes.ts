@@ -14,8 +14,7 @@ const router = express.Router();
 
 router.post(
   "/add",
-  authMiddleware,
-  roleBasedAccess(["Admin", "User"]),
+ 
   addProduct,
 );
 router.get(

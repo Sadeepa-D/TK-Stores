@@ -12,7 +12,7 @@ import usageRoutes from "./routes/UsageRoutes";
 const app = express();
 
 app.use(morgan("dev"));
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(compression());
 app.use(helmet());
 app.use(express.json());
