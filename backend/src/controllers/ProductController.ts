@@ -36,7 +36,7 @@ const addProduct = async (
   try {
     const { name, price, baseunit, description } = req.body;
 
-    if (!name || !price || !baseunit || !description) {
+    if (!name || !price || !baseunit) {
       return res.status(400).json({ message: "All fields are required" });
     }
     if (price <= 0) {
@@ -69,7 +69,16 @@ const getAllProducts = async (
   res: Response<ProductRes<Product[]>>,
 ) => {
   try {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({
+      include: {
+        batches: {
+          select: {
+            id: true,
+            batchNumber: true,
+          },
+        },
+      },
+    });
     res
       .status(200)
       .json({ message: "Products fetched successfully", data: products });
