@@ -20,7 +20,7 @@ const generateBatchNum = async (): Promise<string> => {
 
 interface BatchReq {
   pid: string;
-  quantity: Decimal;
+  startqty: Decimal;
   manufactureDate: Date;
   expiryDate: Date;
   value: Decimal;
@@ -35,8 +35,8 @@ const addBatch = async (
   res: Response<BatchRes<Batch>>,
 ) => {
   try {
-    const { pid, quantity, manufactureDate, expiryDate, value } = req.body;
-    if (!pid || !quantity || !manufactureDate || !expiryDate || !value) {
+    const { pid, startqty, manufactureDate, expiryDate, value } = req.body;
+    if (!pid || !startqty || !manufactureDate || !expiryDate || !value) {
       return res.status(400).json({ message: "All fields are required" });
     }
     const batchNumber = await generateBatchNum();
@@ -44,9 +44,9 @@ const addBatch = async (
       data: {
         batchNumber,
         pid,
-        quantity,
-        manufactureDate,
-        expiryDate,
+        startquantity: startqty,
+        manufactureDate: new Date(manufactureDate),
+        expiryDate: new Date(expiryDate),
         value,
       },
     });
@@ -91,14 +91,14 @@ const updateBatch = async (
 ) => {
   try {
     const { id } = req.params;
-    const { quantity, manufactureDate, expiryDate, value } = req.body;
-    if (!quantity || !manufactureDate || !expiryDate || !value) {
+    const { startqty, manufactureDate, expiryDate, value } = req.body;
+    if (!startqty || !manufactureDate || !expiryDate || !value) {
       return res.status(400).json({ message: "All fields are required" });
     }
     const updatedBatch = await prisma.batch.update({
       where: { id },
       data: {
-        quantity,
+        startquantity: startqty,
         manufactureDate,
         expiryDate,
         value,

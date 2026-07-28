@@ -14,8 +14,6 @@ const router = express.Router();
 
 router.post(
   "/add",
-  authMiddleware,
-  roleMiddleware(["Admin", "User"]),
   addBatch,
 );
 router.get(
