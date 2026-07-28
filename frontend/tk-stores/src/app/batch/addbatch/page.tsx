@@ -50,6 +50,14 @@ export default function AddBatch() {
     try {
       setLoading(true);
       await api.post("/batches/add", formData);
+      window.alert("Batch added successfully");
+      setFormData({
+        pid: "",
+        startqty: 0,
+        manufactureDate: new Date(),
+        expiryDate: new Date(),
+        value: 0,
+      });
     } catch (error) {
       console.error("Error submitting batch:", error);
     } finally {
@@ -75,117 +83,121 @@ export default function AddBatch() {
           </div>
         )}
         {/* Header */}
-        <div className="mb-6 border-b border-gray-100 pb-4">
-          <h2 className="text-2xl sm:text-3xl font-bold text-amber-500">
-            Add Batch
-          </h2>
-          <p className="text-sm text-gray-500 mt-1">
-            Enter the batch details below to register it into the system.
-          </p>
-        </div>
-
-        {/* Form */}
-        <form className="space-y-5" onSubmit={handlesubmit}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {/* Product ID */}
-            <div>
-              <label
-                className="block text-sm font-semibold text-gray-700 mb-1.5"
-                htmlFor="pid"
-              >
-                Product ID
-              </label>
-              <input
-                className="w-full px-3.5 py-2.5 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg text-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                id="pid"
-                type="text"
-                value={formData.pid}
-                onChange={handleChange}
-                placeholder="e.g. PRD-10293"
-              />
+        {!loading && (
+          <>
+            <div className="mb-6 border-b border-gray-100 pb-4">
+              <h2 className="text-2xl sm:text-3xl font-bold text-amber-500">
+                Add Batch
+              </h2>
+              <p className="text-sm text-gray-500 mt-1">
+                Enter the batch details below to register it into the system.
+              </p>
             </div>
+            {/* Form */}
 
-            {/* Quantity */}
-            <div>
-              <label
-                className="block text-sm font-semibold text-gray-700 mb-1.5"
-                htmlFor="startqty"
-              >
-                Quantity
-              </label>
-              <input
-                className="w-full px-3.5 py-2.5 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg text-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                id="startqty"
-                type="number"
-                value={formData.startqty}
-                onChange={handleChange}
-                placeholder="0"
-              />
-            </div>
+            <form className="space-y-5" onSubmit={handlesubmit}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {/* Product ID */}
+                <div>
+                  <label
+                    className="block text-sm font-semibold text-gray-700 mb-1.5"
+                    htmlFor="pid"
+                  >
+                    Product ID
+                  </label>
+                  <input
+                    className="w-full px-3.5 py-2.5 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg text-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    id="pid"
+                    type="text"
+                    value={formData.pid}
+                    onChange={handleChange}
+                    placeholder="e.g. PRD-10293"
+                  />
+                </div>
 
-            {/* Manufacture Date */}
-            <div>
-              <label
-                className="block text-sm font-semibold text-gray-700 mb-1.5"
-                htmlFor="manufactureDate"
-              >
-                Manufacture Date
-              </label>
-              <input
-                className="w-full px-3.5 py-2.5 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg text-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                id="manufactureDate"
-                type="date"
-                value={formData.manufactureDate.toISOString().split("T")[0]}
-                onChange={handleChange}
-              />
-            </div>
+                {/* Quantity */}
+                <div>
+                  <label
+                    className="block text-sm font-semibold text-gray-700 mb-1.5"
+                    htmlFor="startqty"
+                  >
+                    Quantity
+                  </label>
+                  <input
+                    className="w-full px-3.5 py-2.5 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg text-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    id="startqty"
+                    type="number"
+                    value={formData.startqty}
+                    onChange={handleChange}
+                    placeholder="0"
+                  />
+                </div>
 
-            {/* Expiry Date */}
-            <div>
-              <label
-                className="block text-sm font-semibold text-gray-700 mb-1.5"
-                htmlFor="expiryDate"
-              >
-                Expiry Date
-              </label>
-              <input
-                className="w-full px-3.5 py-2.5 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg text-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                id="expiryDate"
-                type="date"
-                value={formData.expiryDate.toISOString().split("T")[0]}
-                onChange={handleChange}
-              />
-            </div>
+                {/* Manufacture Date */}
+                <div>
+                  <label
+                    className="block text-sm font-semibold text-gray-700 mb-1.5"
+                    htmlFor="manufactureDate"
+                  >
+                    Manufacture Date
+                  </label>
+                  <input
+                    className="w-full px-3.5 py-2.5 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg text-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    id="manufactureDate"
+                    type="date"
+                    value={formData.manufactureDate.toISOString().split("T")[0]}
+                    onChange={handleChange}
+                  />
+                </div>
 
-            {/* Value - Spans full width on sm screens */}
-            <div className="sm:col-span-2">
-              <label
-                className="block text-sm font-semibold text-gray-700 mb-1.5"
-                htmlFor="value"
-              >
-                Total Value ($)
-              </label>
-              <input
-                className="w-full px-3.5 py-2.5 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg text-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                id="value"
-                type="number"
-                value={formData.value}
-                onChange={handleChange}
-                placeholder="0.00"
-              />
-            </div>
-          </div>
+                {/* Expiry Date */}
+                <div>
+                  <label
+                    className="block text-sm font-semibold text-gray-700 mb-1.5"
+                    htmlFor="expiryDate"
+                  >
+                    Expiry Date
+                  </label>
+                  <input
+                    className="w-full px-3.5 py-2.5 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg text-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    id="expiryDate"
+                    type="date"
+                    value={formData.expiryDate.toISOString().split("T")[0]}
+                    onChange={handleChange}
+                  />
+                </div>
 
-          {/* Submit Button */}
-          <div className="pt-2">
-            <button
-              className="w-full sm:w-auto px-6 py-2.5 bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-white font-medium text-sm rounded-lg shadow-sm hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
-              type="submit"
-            >
-              Add Batch
-            </button>
-          </div>
-        </form>
+                {/* Value - Spans full width on sm screens */}
+                <div className="sm:col-span-2">
+                  <label
+                    className="block text-sm font-semibold text-gray-700 mb-1.5"
+                    htmlFor="value"
+                  >
+                    Total Value ($)
+                  </label>
+                  <input
+                    className="w-full px-3.5 py-2.5 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg text-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    id="value"
+                    type="number"
+                    value={formData.value}
+                    onChange={handleChange}
+                    placeholder="0.00"
+                  />
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="pt-2">
+                <button
+                  className="w-full sm:w-auto px-6 py-2.5 bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-white font-medium text-sm rounded-lg shadow-sm hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+                  type="submit"
+                >
+                  Add Batch
+                </button>
+              </div>
+            </form>
+          </>
+        )}
       </div>
     </>
   );
